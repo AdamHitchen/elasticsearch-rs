@@ -22,6 +22,7 @@
 #[derive(Debug, Clone)]
 pub enum Credentials {
     /// A username and password to use for Basic authentication
+    #[cfg(not(feature = "wasm"))]
     Basic(String, String),
     /// An access_token to use for Bearer authentication
     Bearer(String),

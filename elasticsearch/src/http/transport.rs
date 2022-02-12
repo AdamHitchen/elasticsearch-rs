@@ -170,6 +170,7 @@ impl TransportBuilder {
     ///
     /// An optional username and password will be used to set the
     /// `Proxy-Authorization` header using Basic Authentication.
+    #[cfg(not(feature = "wasm"))]
     pub fn proxy(mut self, url: Url, username: Option<&str>, password: Option<&str>) -> Self {
         self.proxy = Some(url);
         if let Some(u) = username {
@@ -248,6 +249,7 @@ impl TransportBuilder {
             client_builder = client_builder.default_headers(self.headers);
         }
 
+        #[cfg(not(feature = "wasm"))]
         if let Some(t) = self.timeout {
             client_builder = client_builder.timeout(t);
         }
@@ -296,6 +298,7 @@ impl TransportBuilder {
             }
         }
 
+        #[cfg(not(feature = "wasm"))]
         if self.disable_proxy {
             client_builder = client_builder.no_proxy();
         } else if let Some(url) = self.proxy {
@@ -413,6 +416,7 @@ impl Transport {
         let reqwest_method = self.method(method);
         let mut request_builder = self.client.request(reqwest_method, url);
 
+        #[cfg(not(feature = "wasm"))]
         if let Some(t) = timeout {
             request_builder = request_builder.timeout(t);
         }
