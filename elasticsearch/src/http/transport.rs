@@ -426,6 +426,7 @@ impl Transport {
         // on a specific request, we want it to overwrite.
         if let Some(c) = &self.credentials {
             request_builder = match c {
+                #[cfg(not(feature = "wasm"))]
                 Credentials::Basic(u, p) => request_builder.basic_auth(u, Some(p)),
                 Credentials::Bearer(t) => request_builder.bearer_auth(t),
                 #[cfg(any(feature = "native-tls", feature = "rustls-tls"))]
